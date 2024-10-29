@@ -36,7 +36,7 @@ class Player:
         
         print("\nOpponent field")
         opponent.battlefield.display_battlefield()
-
+        usedMinion = []
         # Loop for player's actions
         while True:
             print("\nActions:")
@@ -76,12 +76,16 @@ class Player:
                 attacker_index = int(input("Choose an attacking minion index: "))
                 if 0 <= attacker_index < len(self.battlefield.minions):
                     attacker = self.battlefield.minions[attacker_index]
+                    if attacker in usedMinion:
+                        print("Already used this minion, cannot attack again.")
+                        continue
                     if opponent.battlefield.minions:
                         opponent.battlefield.display_battlefield()
                         target_index = int(input("Choose a target minion to attack: ")) 
                         if 0 <= target_index < len(opponent.battlefield.minions):
                             target = opponent.battlefield.minions[target_index]
                             result = attacker.attack_minion(target)  # Execute the attack
+                            usedMinion.append(attacker)
                             if result:
                                 self.battlefield.remove_minion(attacker)  # Remove attacker if it dies
                             if result is False:
@@ -90,6 +94,7 @@ class Player:
                         # If no enemy minions, attack the opponent directly
                         print("No enemy minions, attacking the player directly!")
                         opponent.health -= attacker.attack
+                        usedMinion.append(attacker)
                         print(f"{attacker.name} deals {attacker.attack} damage to {opponent.name}. {opponent.name}'s health is now {opponent.health}.")
                         if opponent.health <= 0:
                             print(f"{opponent.name} has been defeated!")  # Announce opponent's defeat
