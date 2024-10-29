@@ -16,6 +16,10 @@ class Hand:
             return card  # Return the played card
         else:
             return None  # Return None if the index is invalid
+    
+    def discard(self, num):
+        for _ in range(num):
+            self.cards.remove(0)
 
     def display_hand(self):
         # Display the current cards in the hand

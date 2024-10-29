@@ -41,4 +41,4 @@ class Spell(Card):
     def play(self, player, enemy, target):
         # Execute the spell's effect on the target
         print(f"Playing spell {self.name}.")
-        self.effect(target)
+        self.effect(player,enemy,target)

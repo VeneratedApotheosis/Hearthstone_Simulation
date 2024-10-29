@@ -19,6 +19,14 @@ class Player:
             if card:
                 self.hand.add_card(card)
 
+    def discard(self,num):
+        self.hand.discard(num)
+
+    def draw_card(self):
+        card = self.deck.draw_card()
+        if card:
+            self.hand.add_card(card)
+
     def take_turn(self, opponent):
         # Start player's turn, increase mana and draw a card
         self.mana_crystals += 1

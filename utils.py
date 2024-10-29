@@ -17,12 +17,10 @@ def polymorph_effect(target):
     target.name = "Sheep"
 
 def flamestrike_effect(player,enemy,targets):
-    enemy_minions = enemy.battlefield
+    enemy_minions = enemy.battlefield.minions
     for minion in enemy_minions:
         minion.health -= 5
         print(f"Dealt 5 damage to {minion.name}, it has {minion.health} health remaining.")
-        if minion.health <= 0:
-            print(f"{minion.name} has died.")
 
 def arcane_intellect_effect(player,enemy,target):
     player.draw_card()
@@ -36,29 +34,29 @@ def polymorph_effect(player,enemy,target):
     print(f"Transformed {target.name} into a 1/1 Sheep.")
 
 def cataclysm_effect(player,enemy,target):
-    battlefield = player.battlefield
-    for minion in battlefield.all_minions:
-        print(f"{minion.name} is destroyed.")
-    battlefield.all_minions.clear()
+    battlefield = player.battlefield.minions
+    battlefieldEnemy = enemy.battlefield.minions
+    for minion in battlefield:
+        player.battlefield.remove_minion(minion)
+    for minion in battlefieldEnemy:
+        player.battlefield.remove_minion(minion)
     player.discard(2)
     print(f"{player.name} discards 2 cards.")
 
 import random
 def deadly_shot_effect(player,enemy,target):
-    enemy_minions = enemy.battlefield
+    enemy_minions = enemy.battlefield.minions
     if enemy_minions:
         target = random.choice(enemy_minions)
         print(f"Deadly Shot destroys {target.name}.")
         enemy_minions.remove(target)
 
 def holy_nova_effect(player,enemy,target):
-    enemy_minions = enemy.battlefield
+    enemy_minions = enemy.battlefield.minions
     for minion in enemy_minions:
         minion.health -= 2
         print(f"Dealt 2 damage to {minion.name}, it has {minion.health} health remaining.")
-        if minion.health <= 0:
-            print(f"{minion.name} has died.")
-    for minion in player.battlefield.friendly_minions:
+    for minion in player.battlefield.minions:
         minion.health += 2
         print(f"Restored 2 health to {minion.name}, it now has {minion.health} health.")
     player.health += 2
